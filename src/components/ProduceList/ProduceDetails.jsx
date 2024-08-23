@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../store/cart";
+import { addToCart, updateItem } from "../../store/cart";
+
 function ProduceDetails({ produce }) {
   const dispatch = useDispatch();
   const cartItem = useSelector(state =>
-    Object.keys(state.cart).find(produceId =>
-      +produceId === produce.id
+    Object.values(state.cart).find(item =>
+      +item.id === produce.id
     )
   );
 
@@ -19,7 +20,13 @@ function ProduceDetails({ produce }) {
         </button>
         <button
           className={"plus-button" + (cartItem ? " selected" : "")}
-          onClick={() => dispatch(addToCart(produce.id))}
+          onClick={ () => {
+            if (cartItem) {
+              const { count } = cartItem
+              dispatch(updateItem({...cartItem, count: count+1}))
+            }
+            else dispatch(addToCart(produce.id))
+          }}
         >
           <i className="fas fa-plus" />
         </button>
