@@ -1,4 +1,5 @@
-import produceData from '../mockData/produce.json'
+import produceData from '../mockData/produce.json';
+import { createSelector } from 'reselect'
 
 const POPULATE = 'produce/POPULATE';
 const TOGGLE_LIKED = 'produce/TOGGLE_LIKED';
@@ -16,6 +17,10 @@ export const toggleLiked = (produce) => (
     produce
   }
 )
+
+export const selectProduce = (state) => state.produce;
+
+export const selectProduceArray = createSelector(selectProduce, (produce) => Object.values(produce));
 
 export const produceReducer = (state = {}, action) =>{
   switch (action.type){
